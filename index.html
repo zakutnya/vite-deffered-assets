@@ -4,29 +4,45 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lazy Loading Demo</title>
+        <title>Vite Deffered Assets Boilerplate</title>
         <style>
             #loader {
                 position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-family: system-ui;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                background-color: rgb(183, 155, 211);
+                top: 0%;
+                left: 0%;
+                font-family: sans-serif;
+                opacity: 100;
+
+                &.hidden {
+                    opacity: 0;
+                    transition: opacity .5s ease;
+                }
             }
         </style>
     </head>
 
     <body>
         <div id="loader">Loading assets...</div>
-        <div id="app" style="display:none">
-            My markup here
-        </div>
+        <main style="display:none">My markup here</main>
+
         <script type="module">
             import { loadAssets } from './src/loader.ts'
             window.addEventListener('load', async () => {
                 await loadAssets()
-                document.getElementById('loader').remove()
-                document.getElementById('app').style.display = 'block'
+
+                const loader = document.getElementById('loader')
+                const content = document.querySelector("main")
+
+                loader.addEventListener("transitionend", () => loader.remove())
+                setTimeout(() => loader.classList.add('hidden'), 2500)
+
+                content.setAttribute('style', null)
             })
         </script>
     </body>
