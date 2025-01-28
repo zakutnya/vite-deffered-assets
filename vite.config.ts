@@ -6,11 +6,13 @@ export default defineConfig({
     resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
 
     build: {
+        manifest: true,
+        cssCodeSplit: false,
         rollupOptions: {
             input: {
-                main: path.resolve(__dirname, "index.html"),
+                loader: path.resolve(__dirname, "index.html"),
+                main: path.resolve(__dirname, "src/main.ts"),
                 styles: path.resolve(__dirname, "src/assets/scss/main.scss"),
-                app: path.resolve(__dirname, "src/main.ts"),
             },
             output: {
                 entryFileNames: "assets/[name]-[hash].js",
